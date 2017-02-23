@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="colorPrimary">#4dbbaa</color>
+    <color name="colorPrimaryDark">#138b78</color>
+    <color name="colorAccent">#464646</color>
+
+    <color name="custom_dialog_nor">#ffffff</color>
+    <color name="custom_dialog_sel">#4dbbaa</color>
+    <color name="custom_dialog_dis">#e5e5e5</color>
+</resources>

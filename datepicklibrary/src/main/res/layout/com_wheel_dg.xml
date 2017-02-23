@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/wheel_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bgcustomdialog_heard"
+            android:gravity="center"
+            android:text="日期"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:textColor="@color/custom_dialog_sel"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/custom_dialog_sel" />
+
+        <LinearLayout
+            android:id="@+id/timePicker1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffffff"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="14dip"
+            android:paddingTop="14dip">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="年" />
+
+                <com.wulee.datepicklibrary.WheelView
+                    android:id="@+id/year"
+                    android:layout_width="90dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="月" />
+
+                <com.wulee.datepicklibrary.WheelView
+                    android:id="@+id/month"
+                    android:layout_width="50dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="日" />
+
+                <com.wulee.datepicklibrary.WheelView
+                    android:id="@+id/day"
+                    android:layout_width="50dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_hour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="时"
+                    android:visibility="invisible"/>
+
+                <com.wulee.datepicklibrary.WheelView
+                    android:id="@+id/hour"
+                    android:layout_width="50dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tv_minute"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="分"
+                    android:visibility="invisible"/>
+
+                <com.wulee.datepicklibrary.WheelView
+                    android:id="@+id/minute"
+                    android:layout_width="50dip"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/bottombtnline_top"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#ffd3d3d3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/confirm"
+                style="@style/DialogText"
+                android:layout_width="0.0dip"
+                android:layout_height="48.0dip"
+                android:layout_weight="1.0"
+                android:background="@drawable/bgcustomdialog_btn_left"
+                android:singleLine="true"
+                android:text="确定" />
+
+            <ImageView
+                android:id="@+id/bottombtnline_mid"
+                android:layout_width="1px"
+                android:layout_height="48.0dip"
+                android:background="#ffd3d3d3" />
+
+            <Button
+                android:id="@+id/cancel"
+                style="@style/DialogText"
+                android:layout_width="0.0dip"
+                android:layout_height="48.0dip"
+                android:layout_weight="1.0"
+                android:background="@drawable/bgcustomdialog_btn_right"
+                android:singleLine="true"
+                android:text="取消" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
