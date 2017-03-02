@@ -57,6 +57,7 @@ public class WheelViewDialog extends AppCompatActivity implements OnClickListene
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.com_wheel_dg);
 		// 获取需要填充的布局类型
 		layoutType = getIntent().getType();
