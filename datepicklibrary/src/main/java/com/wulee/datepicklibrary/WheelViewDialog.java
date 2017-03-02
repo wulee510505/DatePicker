@@ -1,7 +1,10 @@
 package com.wulee.datepicklibrary;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.View;
@@ -18,20 +21,14 @@ import com.wulee.datepicklibrary.utils.DateTimeUtils;
  */
 public class WheelViewDialog extends AppCompatActivity implements OnClickListener, OnWheelChangedListener{
 
-    public final static String IS_SELECT_HOUR = "is_select_hour";
-	public final static String IS_SELECT_MINUTE = "is_select_minute";
-
 	public static final String OLD_DATE = "old_date";
 	public static final String BACK_TIME = "back_time";
+	public static final String THEM_COLOR_RESOURCE = "them_color_resource";
 
-	private String layoutType; // 需要弹出的窗口布局
-	
 	private WheelView yearView, // 年
 			monthView, // 月
-			dayView, // 日
-	        hourView, // 时
-			minuteView; // 分
-	
+			dayView;// 日
+
 	private Button confirm_btn, //确定
 				   cancel_btn;	//取消
 
@@ -49,9 +46,9 @@ public class WheelViewDialog extends AppCompatActivity implements OnClickListene
 
 	private int textSize;//滚轮文字的大小
 
-	private boolean isShowHour = false;
-	private boolean isShowMinute = false;
-	private TextView tvHour,tvMinute;
+    private int themColorRes; //主题颜色
+	private TextView tvTitle,tvLine,tvYear,tvMonth,tvDay;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +56,9 @@ public class WheelViewDialog extends AppCompatActivity implements OnClickListene
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.com_wheel_dg);
-		// 获取需要填充的布局类型
-		layoutType = getIntent().getType();
-		isShowHour = getIntent().getBooleanExtra(IS_SELECT_HOUR, false);
-		isShowMinute = getIntent().getBooleanExtra(IS_SELECT_MINUTE,false);
+
+		themColorRes = getIntent().getIntExtra(THEM_COLOR_RESOURCE,-1);
+
 		String oldDate = null;
 		try {
 			oldDate = getIntent().getStringExtra(OLD_DATE);
@@ -86,76 +82,47 @@ public class WheelViewDialog extends AppCompatActivity implements OnClickListene
 
 	/** 初始化控件 */
 	private void initView() {
+		tvTitle = (TextView) findViewById(R.id.wheel_title);
+		tvLine = (TextView) findViewById(R.id.line);
+		tvYear = (TextView) findViewById(R.id.tv_year);
+		tvMonth = (TextView) findViewById(R.id.tv_month);
+		tvDay = (TextView) findViewById(R.id.tv_day);
+
 		yearView = (WheelView) findViewById(R.id.year);
 		monthView = (WheelView) findViewById(R.id.month);
 		dayView = (WheelView) findViewById(R.id.day);
-		hourView = (WheelView) findViewById(R.id.hour);
-		minuteView =  (WheelView) findViewById(R.id.minute);
 
-		tvHour = (TextView) findViewById(R.id.tv_hour);
-		tvMinute = (TextView) findViewById(R.id.tv_minute);
-
-		if(isShowHour){
-			tvHour.setVisibility(View.VISIBLE);
-			hourView.setVisibility(View.VISIBLE);
-		}else{
-			tvHour.setVisibility(View.INVISIBLE);
-			hourView.setVisibility(View.GONE);
-		}
-		if(isShowMinute){
-			tvMinute.setVisibility(View.VISIBLE);
-			minuteView.setVisibility(View.VISIBLE);
-		} else{
-			tvMinute.setVisibility(View.INVISIBLE);
-			minuteView.setVisibility(View.GONE);
-		}
 		confirm_btn=(Button) findViewById(R.id.confirm);
 		cancel_btn=(Button) findViewById(R.id.cancel);
+
+
+		int themColor = ContextCompat.getColor(this,themColorRes);
+		tvTitle.setTextColor(themColor);
+		tvLine.setBackgroundColor(themColor);
+		tvYear.setTextColor(themColor);
+		tvMonth.setTextColor(themColor);
+		tvDay.setTextColor(themColor);
+		dayView.setSelectItemTextColor(themColor);
+		ColorStateList cls = new ColorStateList(new int[][]{{android.R.attr.state_pressed},{0}}, new int[]{themColor, Color.WHITE});
+		confirm_btn.setBackgroundTintList(cls);
+		cancel_btn.setBackgroundTintList(cls);
 	}
 	
 	/**解析原来设置的日期*/
 	private void parseOldDate(String oldDate){
-		if(isShowHour){
-			String[] dates = oldDate.substring(0,10).split("-");
-			currentYear= Integer.parseInt(dates[0]);
-			currentMonth= Integer.parseInt(dates[1]);
-			today= Integer.parseInt(dates[2]);
-
-			String strHour = oldDate.substring(oldDate.length() - 5, oldDate.length() - 3);
-			currHour= Integer.parseInt(strHour);
-			if(isShowMinute){
-				String strMinute = oldDate.substring(oldDate.length()-2,oldDate.length());
-				currMinute= Integer.parseInt(strMinute);
-			}
-		}else{
-			String[] dates = oldDate.split("-");
-			currentYear= Integer.parseInt(dates[0]);
-			currentMonth= Integer.parseInt(dates[1]);
-			today= Integer.parseInt(dates[2]);
-		}
+		String[] dates = oldDate.split("-");
+		currentYear= Integer.parseInt(dates[0]);
+		currentMonth= Integer.parseInt(dates[1]);
+		today= Integer.parseInt(dates[2]);
 	}
 
 	/** 获取当前时间 */
 	private void getCurrentDate() {
 		String timeStr = DateTimeUtils.getStringDateTime(System.currentTimeMillis());
-		if(isShowHour){
-			String[] dates = timeStr.substring(0,10).split("-");
-			currentYear= Integer.parseInt(dates[0]);
-			currentMonth= Integer.parseInt(dates[1]);
-			today= Integer.parseInt(dates[2]);
-
-			String strHour = timeStr.substring(timeStr.length() - 5, timeStr.length() - 3);
-			currHour= Integer.parseInt(strHour);
-			if(isShowMinute){
-				String strMinute = timeStr.substring(timeStr.length()-2,timeStr.length());
-				currMinute= Integer.parseInt(strMinute);
-			}
-		}else{
-			String[] dates = timeStr.substring(0,10).split("-");
-			currentYear= Integer.parseInt(dates[0]);
-			currentMonth= Integer.parseInt(dates[1]);
-			today= Integer.parseInt(dates[2]);
-		}
+		String[] dates = timeStr.substring(0,10).split("-");
+		currentYear= Integer.parseInt(dates[0]);
+		currentMonth= Integer.parseInt(dates[1]);
+		today= Integer.parseInt(dates[2]);
 	}
 
 
@@ -185,24 +152,6 @@ public class WheelViewDialog extends AppCompatActivity implements OnClickListene
 		dayView.setCurrentItem(today - 1);
 		dayView.addChangingListener(this);
 		dayView.TEXT_SIZE = textSize;
-
-		if(isShowHour){
-			// 设置小时
-			hourView.setAdapter(new NumericWheelAdapter(0, 23));
-			hourView.setCyclic(true);
-			hourView.setCurrentItem(currHour);
-			hourView.addChangingListener(this);
-			hourView.TEXT_SIZE = textSize;
-		}
-
-		if(isShowMinute){
-			// 设置分钟
-			minuteView.setAdapter(new NumericWheelAdapter(0, 59));
-			minuteView.setCyclic(true);
-			minuteView.setCurrentItem(currMinute);
-			minuteView.addChangingListener(this);
-			minuteView.TEXT_SIZE = textSize;
-		}
 	}
 
 	/**
@@ -270,12 +219,6 @@ public class WheelViewDialog extends AppCompatActivity implements OnClickListene
 		}if(wheelId == R.id.day){
 			// 天
 			today=newValue+1;
-		}if(wheelId == R.id.hour){
-			// 小时
-			currHour=newValue;
-		}if(wheelId == R.id.minute){
-			// 分
-			currMinute=newValue;
 		}
 		setDay(String.valueOf(currentMonth));
 	}
@@ -285,16 +228,7 @@ public class WheelViewDialog extends AppCompatActivity implements OnClickListene
 		if(v.getId() == R.id.confirm){
 			//返回数据
 			Intent intent=new Intent();
-			long unixTime = 0L;
-			if(isShowHour){
-				if(isShowMinute){
-					unixTime=DateTimeUtils.timeToUnixDate3(currentYear + "-" + currentMonth + "-" + today + " " + currHour + ":" + currMinute);
-				}else{
-					unixTime=DateTimeUtils.timeToUnixDate2(currentYear+"-"+currentMonth+"-"+today+" "+currHour);
-				}
-			}else{
-				unixTime=DateTimeUtils.timeToUnixDate(currentYear+"-"+currentMonth+"-"+today);
-			}
+			long unixTime = DateTimeUtils.timeToUnixDate(currentYear+"-"+currentMonth+"-"+today);
 			intent.putExtra(BACK_TIME, unixTime);
 			setResult(RESULT_OK, intent);
 			finish();

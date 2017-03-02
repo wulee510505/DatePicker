@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         btnDatePick.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivityForResult(new Intent(MainActivity.this, WheelViewDialog.class), TIME_REQUEST_CODE);
+                startActivityForResult(new Intent(MainActivity.this, WheelViewDialog.class).putExtra(WheelViewDialog.THEM_COLOR_RESOURCE,R.color.colorAccent), TIME_REQUEST_CODE);
             }
         });
     }
